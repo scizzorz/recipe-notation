@@ -12,14 +12,14 @@ id = @{ digit+ }
 
 word = @{ (alpha | digit | punct )+ }
 
-step = { id ~ word+ ~ ":" ~ ingredient_list }
+thing = { word+ }
+
+step = { id ~ thing ~ ":" ~ ingredient_list }
 
 ingredient_list = { ingredient ~ ("," ~ ingredient)* }
 
 ingredient = { prev_ingredient | raw_ingredient }
 prev_ingredient = { "#" ~ id }
-raw_ingredient = { word+ ~ note_list? }
+raw_ingredient = {thing ~ note_list? }
 
-note_list = _{ "(" ~ note ~ ("," ~ note)* ~ ")" }
-
-note = { word+ }
+note_list = _{ "(" ~ thing ~ ("," ~ thing)* ~ ")" }
