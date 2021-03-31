@@ -1,0 +1,25 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+COMMENT = _{ ("//") ~ (!"\n" ~ ANY)* }
+
+alpha = { 'a'..'z' | 'A'..'Z' }
+digit = { '0'..'9' }
+punct = { "." | "-" }
+
+main = _{ SOI ~ main_body ~ EOI }
+main_body = _{ step* }
+
+id = @{ digit+ }
+
+word = @{ (alpha | digit | punct )+ }
+
+step = { id ~ word+ ~ ":" ~ ingredient_list }
+
+ingredient_list = { ingredient ~ ("," ~ ingredient)* }
+
+ingredient = { prev_ingredient | raw_ingredient }
+prev_ingredient = { "#" ~ id }
+raw_ingredient = { word+ ~ note_list? }
+
+note_list = _{ "(" ~ note ~ ("," ~ note)* ~ ")" }
+
+note = { word+ }
