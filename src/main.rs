@@ -3,6 +3,7 @@ use pest::iterators::Pairs;
 use pest::Parser;
 use pest_derive::Parser;
 use std::fs;
+use std::io;
 use std::io::prelude::*;
 
 // you're about to read some awful, hacky, PoC Rust code.
@@ -13,9 +14,13 @@ use std::io::prelude::*;
 struct RecipeParser;
 
 fn main() {
-    let mut file = fs::File::open("recipe").unwrap();
     let mut contents = String::new();
-    file.read_to_string(&mut contents).unwrap();
+
+    io::stdin().read_to_string(&mut contents).unwrap();
+
+    // let mut file = fs::File::open("recipe").unwrap();
+    // file.read_to_string(&mut contents).unwrap();
+
     let mut steps = RecipeParser::parse(Rule::main, &contents).unwrap();
     let mut ing_count = 0;
 
